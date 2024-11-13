@@ -2,7 +2,7 @@ package stopwatch;
 
 import java.util.Scanner;
 
-public class Stopwatch{
+public class Stopwatch extends Timer{
 	private Scanner scan = new Scanner(System.in);
 	private static Stopwatch instance = new Stopwatch();
 	
@@ -20,11 +20,11 @@ public class Stopwatch{
 	
 	private void option(char select) {
 		if(select == 'q') {
-			stop();
+			timeStop();
 		}else if(select == 'h') {
-			hold();
+			timeHold();
 		}else if(select == '*') {
-			reRun();
+			timeReRun();
 		}
 	}
 	
