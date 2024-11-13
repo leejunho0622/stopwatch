@@ -7,11 +7,14 @@ import java.util.Calendar;
 
 public class Timer extends Thread{
 	private Calendar cal = Calendar.getInstance();
-	private StringBuffer timeBuffer = new StringBuffer();
+	static StringBuffer timeBuffer = new StringBuffer();
 	private StringBuffer buffer = new StringBuffer();
 	private BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 	
 	private boolean isRun = true;
+	static boolean holding = true;
+	
+	static String endTime;
 	
 	private String time;
 	private int timeHour;
@@ -63,6 +66,8 @@ public class Timer extends Thread{
 		time = String.format("%d:%d:%d", timeHour, timeMinute, timeSecond);
 		buffer.append(time+" ["+timeBuffer+"]");
 		
+		endTime = timeBuffer.toString();
+		
 		try {
 			writer.append(buffer+"\n");
 			writer.flush();
@@ -73,6 +78,7 @@ public class Timer extends Thread{
 			e.printStackTrace();
 		} catch (InterruptedException e2) {
 			isRun = false;
+			holding = false;
 		} 
 		timeSecond++;
 		second++;
@@ -90,7 +96,13 @@ public class Timer extends Thread{
 	public void run() {
 		setStartTime();
 		while (isRun) {
-			nowTime();
+			try {
+				while (holding) {
+					nowTime();
+				}
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
 		}
 	}
 }
