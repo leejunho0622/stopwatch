@@ -15,17 +15,15 @@ public class Stopwatch extends Timer {
 	}
 
 	private void option(char select) {
-		if (select == 'q') {
+		if (select == 'q' && holding) {
+			isRun = false;
 			stopwatch.thread1.interrupt();
 			stopwatch.thread2.interrupt();
 			printEnd();
-			isRun = false;
 		} else if (select == 'h')
 			holding = false;
 		else if (select == 'a')
 			holding = true;
-		else
-			System.out.println("잘못된 입력.");
 	}
 
 	public void printEnd() {
@@ -35,7 +33,10 @@ public class Stopwatch extends Timer {
 	public void run() {
 		printMain();
 		while (isRun) {
-			option(scan.nextLine().charAt(0));
+			String input = scan.nextLine();
+			if (input.equals(""))
+				continue;
+			option(input.charAt(0));
 		}
 	}
 }
