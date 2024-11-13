@@ -1,6 +1,7 @@
 package stopwatch;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
@@ -68,7 +69,9 @@ public class Timer extends Thread{
 			buffer.setLength(0);
 			timeBuffer.setLength(0);
 			Thread.sleep(1000);
-		} catch (Exception e) {
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e2) {
 			isRun = false;
 		} 
 		timeSecond++;
