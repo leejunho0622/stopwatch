@@ -15,24 +15,20 @@ public class Stopwatch extends Timer{
 	}
 	
 	private void option(char select) {
-		try {
-			if (select == 'q') {
-				Thread.sleep(100);
-				stopwatch.thread1.interrupt();
-				stopwatch.thread2.interrupt();
-				printEnd();
-			} else if (select == 'h') {
-
-			} else if (select == 'a') {
-
-			}
-		} catch (Exception e) {
+		if (select == 'q') {
+			stopwatch.thread1.interrupt();
+			stopwatch.thread2.interrupt();
+			printEnd();
 			isRun = false;
+		} else if (select == 'h') {
+			holding = false;
+		} else if (select == 'a') {
+			holding = true;
 		}
 	}
-	
+
 	public void printEnd() {
-		System.out.println(">> "+ endTime+ "소요됨");
+		System.out.println(">> "+ endTime+ " 소요됨");
 		
 	}
 	
