@@ -9,7 +9,8 @@ import java.util.Calendar;
 public class Timer extends Thread{
 	private Calendar cal = Calendar.getInstance();
 	private SimpleDateFormat watch = new SimpleDateFormat("kk:mm:ss");
-	private StringBuilder buffer = new StringBuilder();
+	private StringBuffer timeBuffer = new StringBuffer();
+	private StringBuffer buffer = new StringBuffer();
 	private BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 	
 	private int hour;
@@ -39,23 +40,23 @@ public class Timer extends Thread{
 		}
 			
 		if(hour > 0)
-			buffer.append(hour+"h ");
+			timeBuffer.append(hour+"h");
 		if(minute > 0) 
-			buffer.append(minute+"m ");
+			timeBuffer.append(minute+"m");
 		if(second > 0) 
-			buffer.append(second+"s");
+			timeBuffer.append(second+"s");
 	}
 	
 	protected void nowTime() {
 		calculateTime();
 		
 		String time = watch.format(cal.getTime());
-		
-		buffer.append(time+" ["+buffer.toString()+"]");
+		buffer.append(time+" ["+timeBuffer+"]");
 		
 		try {
 			writer.append(buffer);
 			writer.flush();
+			buffer.setLength(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
