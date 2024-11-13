@@ -104,5 +104,6 @@ public class Timer extends Thread{
 			} catch (Exception e) {
 			}
 		}
+		closeWriter();
 	}
 }
