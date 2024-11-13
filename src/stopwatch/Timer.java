@@ -26,18 +26,6 @@ public class Timer extends Thread{
 		timeSecond = cal.getTime().getSeconds();
 	}
 	
-	protected void timeStop() {
-		
-	}
-	
-	protected void timeHold() {
-		
-	}
-	
-	protected void timeReRun() {
-		
-	}
-	
 	private void calculateTime() {
 		if(second == 60) {
 			second = 0;
@@ -89,13 +77,13 @@ public class Timer extends Thread{
 	@Override
 	public void run() {
 		setStartTime();
-		for(int i=0; i<50; i++) {
+		while(true) {
 			nowTime();
 		}
-		try {
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			writer.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
