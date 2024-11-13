@@ -3,19 +3,28 @@ package stopwatch;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Timer extends Thread{
 	private Calendar cal = Calendar.getInstance();
-	private SimpleDateFormat watch = new SimpleDateFormat("kk:mm:ss");
 	private StringBuffer timeBuffer = new StringBuffer();
 	private StringBuffer buffer = new StringBuffer();
 	private BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 	
+	private String time;
+	private int timeHour;
+	private int timeMinute;
+	private int timeSecond;
+	
 	private int hour;
 	private int minute;
 	private int second;
+	
+	private void setStartTime() {
+		timeHour = cal.getTime().getHours();
+		timeMinute = cal.getTime().getMinutes();
+		timeSecond = cal.getTime().getSeconds();
+	}
 	
 	protected void timeStop() {
 		
@@ -29,7 +38,7 @@ public class Timer extends Thread{
 		
 	}
 	
-	protected void calculateTime() {
+	private void calculateTime() {
 		if(second == 60) {
 			second = 0;
 			minute++;
@@ -38,7 +47,17 @@ public class Timer extends Thread{
 			minute = 0;
 			hour++;
 		}
-			
+		if(timeSecond == 60) {
+			timeSecond = 0;
+			timeMinute++;
+		}
+		if(timeMinute == 60) {
+			timeMinute = 0;
+			timeHour++;
+		}
+	}
+	
+	private void setTime() {
 		if(hour > 0)
 			timeBuffer.append(hour+"h");
 		if(minute > 0) 
@@ -49,22 +68,34 @@ public class Timer extends Thread{
 	
 	protected void nowTime() {
 		calculateTime();
+		setTime();
 		
-		String time = watch.format(cal.getTime());
+		time = String.format("%d:%d:%d", timeHour, timeMinute, timeSecond);
 		buffer.append(time+" ["+timeBuffer+"]");
 		
 		try {
-			writer.append(buffer);
+			writer.append(buffer+"\n");
 			writer.flush();
 			buffer.setLength(0);
+			timeBuffer.setLength(0);
+			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		} 
+		timeSecond++;
+		second++;
+	}
+	
+	@Override
+	public void run() {
+		setStartTime();
+		for(int i=0; i<50; i++) {
+			nowTime();
+		}
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
