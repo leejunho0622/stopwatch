@@ -2,24 +2,14 @@ package stopwatch;
 
 import java.util.Scanner;
 
-public class Stopwatch extends Timer{
+public class Stopwatch extends Thread{
 	private Scanner scan = new Scanner(System.in);
-	private static Stopwatch instance = new Stopwatch();
-	
-	private Stopwatch() {}
-	public static Stopwatch getInstance() {
-		return instance;
-	}
 	
 	private void printMain() {
 		System.err.println("[q] STOP");
 		System.err.println("[h] HOLD");
 		System.err.println("[*] RERUN");
 		option(scan.nextLine().charAt(0));
-	}
-	
-	private void printTime() {
-		nowTime();
 	}
 	
 	private void option(char select) {
@@ -32,8 +22,21 @@ public class Stopwatch extends Timer{
 		}
 	}
 	
+	private void timeStop() {
+		
+	}
+	
+	private void timeHold() {
+		
+	}
+	
+	private void timeReRun() {
+		
+	}
+	
 	public void run() {
 		printMain();
-		printTime();
+		
+		
 	}
 }
