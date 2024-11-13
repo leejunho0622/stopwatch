@@ -1,6 +1,6 @@
 package stopwatch;
 
-public class DoubleThread implements Runnable{
+public class DoubleThread{
 	private DoubleThread() {}
 	private static DoubleThread instance = new DoubleThread();
 	public static DoubleThread getInstance() {
