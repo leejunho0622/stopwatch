@@ -18,17 +18,22 @@ public class Stopwatch extends Timer{
 		option(scan.nextLine().charAt(0));
 	}
 	
+	private void printTime() {
+		nowTime();
+	}
+	
 	private void option(char select) {
 		if(select == 'q') {
 			timeStop();
 		}else if(select == 'h') {
 			timeHold();
-		}else if(select == '*') {
+		}else if(select == 'a') {
 			timeReRun();
 		}
 	}
 	
 	public void run() {
 		printMain();
+		printTime();
 	}
 }
