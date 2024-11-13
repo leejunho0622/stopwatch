@@ -1,7 +1,6 @@
 package stopwatch;
 
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Calendar;
 
@@ -10,6 +9,8 @@ public class Timer extends Thread{
 	private StringBuffer timeBuffer = new StringBuffer();
 	private StringBuffer buffer = new StringBuffer();
 	private BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	private boolean isRun = true;
 	
 	private String time;
 	private int timeHour;
@@ -54,7 +55,7 @@ public class Timer extends Thread{
 			timeBuffer.append(second+"s");
 	}
 	
-	protected void nowTime() {
+	private void nowTime() {
 		calculateTime();
 		setTime();
 		
@@ -68,22 +69,25 @@ public class Timer extends Thread{
 			timeBuffer.setLength(0);
 			Thread.sleep(1000);
 		} catch (Exception e) {
-			e.printStackTrace();
+			isRun = false;
 		} 
 		timeSecond++;
 		second++;
 	}
 	
+	public void closeWriter() {
+		try {
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		setStartTime();
-		while(true) {
+		while (isRun) {
 			nowTime();
 		}
-//		try {
-//			writer.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 }
